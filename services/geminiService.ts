@@ -1,7 +1,16 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = process.env.API_KEY || "";
+// Safe access to environment variables
+const getApiKey = () => {
+  try {
+    return process.env.API_KEY || "";
+  } catch (e) {
+    return "";
+  }
+};
+
+const API_KEY = getApiKey();
 
 export const getAIResponse = async (prompt: string, history: { role: string; parts: string }[]) => {
   if (!API_KEY) return "API Key not configured. Please check environment variables.";

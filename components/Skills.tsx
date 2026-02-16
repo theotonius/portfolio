@@ -1,14 +1,13 @@
 
 import React from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip } from 'recharts';
 
-const data = [
-  { subject: 'Frontend', A: 95, fullMark: 100 },
-  { subject: 'Backend', A: 85, fullMark: 100 },
-  { subject: 'UI/UX', A: 80, fullMark: 100 },
-  { subject: 'AI Integration', A: 90, fullMark: 100 },
-  { subject: 'DevOps', A: 75, fullMark: 100 },
-  { subject: 'Architecture', A: 88, fullMark: 100 },
+const SKILLS_LIST = [
+  { name: 'Frontend Development', level: 95, color: 'bg-sky-500' },
+  { name: 'Backend Systems', level: 85, color: 'bg-indigo-500' },
+  { name: 'AI & Machine Learning', level: 90, color: 'bg-purple-500' },
+  { name: 'Cloud Infrastructure', level: 75, color: 'bg-emerald-500' },
+  { name: 'UI/UX Design', level: 80, color: 'bg-pink-500' },
+  { name: 'System Architecture', level: 88, color: 'bg-amber-500' },
 ];
 
 const Skills: React.FC = () => {
@@ -18,45 +17,43 @@ const Skills: React.FC = () => {
         <div>
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Technical <span className="text-sky-400">Expertise</span></h2>
           <p className="text-slate-400 mb-8 leading-relaxed">
-            I don't just write code; I architect systems that scale. My toolkit is focused on modern, type-safe technologies and AI-driven development patterns.
+            I build modern, scalable applications using the latest industry standards. My expertise spans across the entire stack, with a deep focus on performance and developer experience.
           </p>
           
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { name: 'React & Next.js', icon: '⚛️' },
-              { name: 'TypeScript', icon: 'TS' },
-              { name: 'Node.js/Express', icon: '🟢' },
-              { name: 'PostgreSQL/Redis', icon: '🐘' },
-              { name: 'Tailwind CSS', icon: '🎨' },
-              { name: 'Gemini/OpenAI', icon: '🤖' },
-            ].map(skill => (
-              <div key={skill.name} className="p-4 glass rounded-xl flex items-center space-x-3 hover:border-sky-500/30 transition-all">
-                <span className="text-lg font-mono text-sky-400">{skill.icon}</span>
-                <span className="font-medium text-slate-200">{skill.name}</span>
+          <div className="grid grid-cols-1 gap-6">
+            {SKILLS_LIST.map(skill => (
+              <div key={skill.name} className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="font-medium text-slate-200">{skill.name}</span>
+                  <span className="text-sky-400 mono text-sm">{skill.level}%</span>
+                </div>
+                <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div 
+                    className={`h-full ${skill.color} transition-all duration-1000`} 
+                    style={{ width: `${skill.level}%` }}
+                  ></div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="h-[400px] glass rounded-3xl p-6 flex items-center justify-center">
-          <ResponsiveContainer width="100%" height="100%">
-            <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
-              <PolarGrid stroke="#334155" />
-              <PolarAngleAxis dataKey="subject" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-              <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-              <Radar
-                name="Skill Level"
-                dataKey="A"
-                stroke="#38bdf8"
-                fill="#38bdf8"
-                fillOpacity={0.4}
-              />
-              <Tooltip 
-                contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155', borderRadius: '8px' }}
-                itemStyle={{ color: '#f8fafc' }}
-              />
-            </RadarChart>
-          </ResponsiveContainer>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { name: 'React', desc: 'Expert' },
+            { name: 'Node.js', desc: 'Advanced' },
+            { name: 'TypeScript', desc: 'Expert' },
+            { name: 'PostgreSQL', desc: 'Advanced' },
+            { name: 'Docker', desc: 'Intermediate' },
+            { name: 'Gemini AI', desc: 'Expert' },
+            { name: 'Tailwind', desc: 'Expert' },
+            { name: 'Next.js', desc: 'Advanced' },
+          ].map(item => (
+            <div key={item.name} className="p-6 glass rounded-2xl border-slate-800 hover:border-sky-500/30 transition-all group">
+              <div className="text-sky-400 font-bold text-lg mb-1 group-hover:scale-110 transition-transform origin-left">{item.name}</div>
+              <div className="text-slate-500 text-xs uppercase tracking-widest mono">{item.desc}</div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
