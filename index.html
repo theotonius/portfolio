@@ -19,6 +19,7 @@
         color: #f8fafc;
         margin: 0;
         padding: 0;
+        overflow-x: hidden;
       }
       .mono {
         font-family: 'JetBrains Mono', monospace;
@@ -32,6 +33,20 @@
         background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+      }
+      /* Custom scrollbar for better aesthetics */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #1e293b;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #334155;
       }
     </style>
   <script type="importmap">
