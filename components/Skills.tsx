@@ -19,10 +19,9 @@ const Skills: React.FC = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
     if (sectionRef.current) {
@@ -40,36 +39,63 @@ const Skills: React.FC = () => {
     <section 
       id="skills" 
       ref={sectionRef}
-      className="py-24 px-6 bg-slate-900/50 scroll-mt-20 overflow-hidden"
+      className="py-24 px-6 bg-slate-900/50 scroll-mt-20 overflow-hidden relative"
     >
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-        <div className={`transition-all duration-1000 ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-12 opacity-0'}`}>
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Technical <span className="text-sky-400">Expertise</span></h2>
-          <p className="text-slate-400 mb-10 leading-relaxed text-lg">
-            I build modern, scalable applications using the latest industry standards. My expertise spans across the entire stack, with a deep focus on performance and developer experience.
-          </p>
+      {/* Background Decorative Element */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-sky-500/5 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+        {/* Left Column: Progress Bars */}
+        <div className={`transition-all duration-1000 ease-out ${isVisible ? 'translate-x-0 opacity-100' : '-translate-x-20 opacity-0'}`}>
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
+              Technical <span className="text-sky-400">Expertise</span>
+            </h2>
+            <p className="text-slate-400 leading-relaxed text-lg max-w-xl">
+              I specialize in building high-performance applications with a focus on modern architectures and seamless user experiences.
+            </p>
+          </div>
           
-          <div className="grid grid-cols-1 gap-8">
+          <div className="space-y-10">
             {SKILLS_LIST.map((skill, index) => (
-              <div key={skill.name} className="group">
-                <div className="flex justify-between items-center mb-2.5">
-                  <span className="font-semibold text-slate-200 group-hover:text-white transition-colors">
-                    {skill.name}
-                  </span>
-                  <span className="text-sky-400 mono text-sm font-medium">
+              <div 
+                key={skill.name} 
+                className={`group transition-all duration-700 ease-out`}
+                style={{ 
+                  transitionDelay: `${index * 100}ms`,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+                  opacity: isVisible ? 1 : 0
+                }}
+              >
+                <div className="flex justify-between items-end mb-3">
+                  <div>
+                    <span className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1 block mono">Domain</span>
+                    <span className="font-semibold text-slate-200 group-hover:text-white transition-colors text-lg">
+                      {skill.name}
+                    </span>
+                  </div>
+                  <span className="text-sky-400 mono text-xl font-bold">
                     {isVisible ? skill.level : 0}%
                   </span>
                 </div>
-                <div className="h-3 w-full bg-slate-800/80 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
+                
+                <div className="relative h-4 w-full bg-slate-800/50 rounded-full overflow-hidden backdrop-blur-sm border border-white/5 group-hover:border-white/10 transition-colors">
+                  {/* The Background Track Shimmer */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none"></div>
+                  
+                  {/* The Active Bar */}
                   <div 
-                    className={`h-full ${skill.color} transition-all duration-[1500ms] ease-out shadow-lg ${skill.glow}`} 
+                    className={`absolute inset-y-0 left-0 ${skill.color} transition-all duration-[2000ms] cubic-bezier(0.34, 1.56, 0.64, 1)`} 
                     style={{ 
                       width: isVisible ? `${skill.level}%` : '0%',
-                      transitionDelay: `${index * 150}ms`,
-                      boxShadow: isVisible ? `0 0 15px ${skill.glow.split('-')[1]}` : 'none'
+                      transitionDelay: `${(index * 150) + 400}ms`,
                     }}
                   >
-                    <div className="w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent animate-[shimmer_2s_infinite]"></div>
+                    {/* Inner highlight for depth */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent"></div>
+                    
+                    {/* Animated tip glow */}
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-full bg-white blur-md opacity-50"></div>
                   </div>
                 </div>
               </div>
@@ -77,27 +103,38 @@ const Skills: React.FC = () => {
           </div>
         </div>
 
-        <div className={`grid grid-cols-2 gap-4 transition-all duration-1000 delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
-          {[
-            { name: 'React', desc: 'Expert', icon: '⚛️' },
-            { name: 'Node.js', desc: 'Advanced', icon: '🟢' },
-            { name: 'TypeScript', desc: 'Expert', icon: '🟦' },
-            { name: 'PostgreSQL', desc: 'Advanced', icon: '🐘' },
-            { name: 'Docker', desc: 'Intermediate', icon: '🐳' },
-            { name: 'Gemini AI', desc: 'Expert', icon: '✨' },
-            { name: 'Tailwind', desc: 'Expert', icon: '🎨' },
-            { name: 'Next.js', desc: 'Advanced', icon: '🚀' },
-          ].map((item, index) => (
-            <div 
-              key={item.name} 
-              className="p-6 glass rounded-2xl border-slate-800 hover:border-sky-500/40 transition-all duration-500 group hover:-translate-y-2 cursor-default"
-              style={{ transitionDelay: `${index * 100}ms` }}
-            >
-              <div className="text-2xl mb-3 group-hover:scale-125 transition-transform duration-300 transform-gpu origin-left">{item.icon}</div>
-              <div className="text-sky-400 font-bold text-lg mb-1 group-hover:text-sky-300 transition-colors">{item.name}</div>
-              <div className="text-slate-500 text-xs uppercase tracking-widest mono font-medium">{item.desc}</div>
-            </div>
-          ))}
+        {/* Right Column: Stack Grid */}
+        <div className="relative">
+          <div className={`grid grid-cols-2 gap-4 transition-all duration-1000 delay-500 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
+            {[
+              { name: 'React', desc: 'Expert', icon: '⚛️', color: 'hover:border-sky-500/40' },
+              { name: 'Node.js', desc: 'Advanced', icon: '🟢', color: 'hover:border-green-500/40' },
+              { name: 'TypeScript', desc: 'Expert', icon: '🟦', color: 'hover:border-blue-500/40' },
+              { name: 'PostgreSQL', desc: 'Advanced', icon: '🐘', color: 'hover:border-indigo-500/40' },
+              { name: 'Docker', desc: 'Mid-Senior', icon: '🐳', color: 'hover:border-sky-600/40' },
+              { name: 'Gemini AI', desc: 'Expert', icon: '✨', color: 'hover:border-purple-500/40' },
+              { name: 'Tailwind', desc: 'Expert', icon: '🎨', color: 'hover:border-cyan-500/40' },
+              { name: 'Next.js', desc: 'Advanced', icon: '🚀', color: 'hover:border-white/40' },
+            ].map((item, index) => (
+              <div 
+                key={item.name} 
+                className={`p-6 glass rounded-2xl border-slate-800 transition-all duration-500 group hover:-translate-y-2 cursor-default flex flex-col items-center text-center ${item.color}`}
+                style={{ 
+                  transitionDelay: `${(index * 75) + 600}ms`,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                  opacity: isVisible ? 1 : 0
+                }}
+              >
+                <div className="text-3xl mb-4 group-hover:scale-125 transition-transform duration-500 transform-gpu">{item.icon}</div>
+                <div className="text-white font-bold text-lg mb-1 group-hover:text-sky-400 transition-colors">{item.name}</div>
+                <div className="text-slate-500 text-[10px] uppercase tracking-[0.2em] mono font-bold">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+          
+          {/* Floating Accents */}
+          <div className="absolute -top-10 -right-10 w-20 h-20 bg-sky-500/20 rounded-full blur-2xl animate-pulse"></div>
+          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
         </div>
       </div>
 
@@ -105,6 +142,9 @@ const Skills: React.FC = () => {
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
           100% { transform: translateX(100%); }
+        }
+        .cubic-bezier {
+          transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
       `}</style>
     </section>
